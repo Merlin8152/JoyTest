@@ -46,23 +46,6 @@ void UJT_InventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 }
 
 
-//void UJT_InventoryComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-//{
-//	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-//
-//	//DOREPLIFETIME(UJT_InventoryComponent, Inventory);
-//}
-//
-//
-//bool UJT_InventoryComponent::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags)
-//{
-//	bool Success = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);
-//
-//	//Success |= Channel->ReplicateSubobjectList(Inventory, *Bunch, *RepFlags);
-//
-//	return Success;
-//}
-
 
 
 
