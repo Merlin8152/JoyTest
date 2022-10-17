@@ -246,30 +246,6 @@ void UJT_InventoryComponent::AddSimilarItemsToInventory_Implementation(UJT_Inven
 	OnInventoryChangedBind.Broadcast();
 }
 
-void UJT_InventoryComponent::AddItemsFromActorsToInventory_Implementation(const TArray<TSubclassOf<AActor>>& ActorClasses, bool MustBeNewSlot)
-{
-	TArray<UJT_InventoryItemInfo*> LItemsInfo;
-
-	for (const auto& LActorClass : ActorClasses)
-	{
-		LItemsInfo.Add(UJT_InventoryFunctionLibrary::TryGetItemInfoCopyFromActorClass(LActorClass));
-	}
-
-	AddItemsToInventory(LItemsInfo, MustBeNewSlot);
-}
-
-void UJT_InventoryComponent::AddItemsFromSoftActorsToInventory_Implementation(const TArray<TSoftClassPtr<AActor>>& ActorClasses, bool MustBeNewSlot)
-{
-	TArray<UJT_InventoryItemInfo*> LItemsInfo;
-
-	for (const auto& LActorClass : ActorClasses)
-	{
-		if (LActorClass.IsNull()) continue;
-		LItemsInfo.Add(UJT_InventoryFunctionLibrary::TryGetItemInfoCopyFromActorClass(LActorClass.LoadSynchronous()));
-	}
-
-	AddItemsToInventory(LItemsInfo, MustBeNewSlot);
-}
 
 
 

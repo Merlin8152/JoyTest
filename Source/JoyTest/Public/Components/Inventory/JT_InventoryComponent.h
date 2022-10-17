@@ -103,12 +103,6 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InventorySystem|Inventory")
 		void AddSimilarItemsToInventory(UJT_InventoryItemInfo* SimilarItemInfo, int Count, bool MustBeNewSlot);
 	virtual void AddSimilarItemsToInventory_Implementation(UJT_InventoryItemInfo* SimilarItemInfo, int Count, bool MustBeNewSlot);
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InventorySystem|Inventory")
-		void AddItemsFromActorsToInventory(const TArray<TSubclassOf<AActor>>& ActorClasses, bool MustBeNewSlot);
-	virtual void AddItemsFromActorsToInventory_Implementation(const TArray<TSubclassOf<AActor>>& ActorClasses, bool MustBeNewSlot);
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InventorySystem|Inventory")
-		void AddItemsFromSoftActorsToInventory(const TArray<TSoftClassPtr<AActor>>& ActorClasses, bool MustBeNewSlot);
-	virtual void AddItemsFromSoftActorsToInventory_Implementation(const TArray<TSoftClassPtr<AActor>>& ActorClasses, bool MustBeNewSlot);
 
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InventorySystem|Inventory")

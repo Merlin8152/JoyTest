@@ -10,7 +10,6 @@
 
 
 class UJT_InventoryItemInfo;
-class UJT_InventoryItemComponent;
 class UJT_InventorySlotBase;
 
 
@@ -23,33 +22,8 @@ class JOYTEST_API UJT_InventoryFunctionLibrary : public UBlueprintFunctionLibrar
 
 public:
 
-	/* 
-		Find item info in actor.
-		@return nullptr if wrong actor.
-	*/
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PZ_InventoryFunctionLibrary")
-		static UJT_InventoryItemInfo* TryGetItemInfoFromActor(AActor* Actor);
-	/*
-		Find item info in actor and copy it.
-		@return Copy of item info. 
-	*/
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PZ_InventoryFunctionLibrary")
-		static UJT_InventoryItemInfo* TryGetItemInfoCopyFromActor(AActor* Actor);
-	/*
-		Find item info in actor class and copy it.
-		@return Copy of item info.
-	*/
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PZ_InventoryFunctionLibrary")
-		static UJT_InventoryItemInfo* TryGetItemInfoCopyFromActorClass(TSubclassOf<AActor> ActorClass);
 
-	/*
-		Find InventoryItemComponent in actor class.
-		@return nullptr if wrong actor class.
-	*/
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PZ_InventoryFunctionLibrary")
-		static UJT_InventoryItemComponent* FindInventoryItemComponentInClass(TSubclassOf<AActor> ActorClass);
 	
-
 	/*
 		Checks two slots for equality.
 		@return true if (InventorySlotA is equal to InventorySlotB) and (InventorySlotB is equal to InventorySlotA). 
