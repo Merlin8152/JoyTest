@@ -34,8 +34,6 @@ protected:
 	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent);
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
 
-	UFUNCTION()
-		void DropItemFromQuickSlot(int ItemsCount);
 
 
 	void MoveSlotToInventory();
@@ -78,6 +76,11 @@ protected:
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "QuickSlotWD")
 		UTexture2D* QuickSlotIconTexture = nullptr;
+
+
+	// Blueprint public methods
+public:
+
 
 
 };

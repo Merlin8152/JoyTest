@@ -25,7 +25,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		USphereComponent* SphereComponent;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UParticleSystem* ParticleSystem = nullptr;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		USoundBase* TriggerSound;
 };

@@ -8,6 +8,8 @@
 
 class UWidgetComponent;
 class UJT_DamageInfoWD;
+
+
 UCLASS(Abstract)
 class JOYTEST_API AJT_DamageInfoActor : public AActor
 {
@@ -36,6 +38,8 @@ public:
 	/*Created widget class*/
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 		TSubclassOf<UJT_DamageInfoWD> WidgetClass;
+
+
 	/*Created widget Component*/
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 		UWidgetComponent* WidgetComponent;
@@ -44,8 +48,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SetDamageText(const FText& Text);
 
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 };

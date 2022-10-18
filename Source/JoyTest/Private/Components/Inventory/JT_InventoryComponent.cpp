@@ -310,7 +310,7 @@ void UJT_InventoryComponent::StackAllInInventory_Implementation(bool MoveAllToSt
 
 	if (MoveAllToStart)
 	{
-		SortInventoryByEmptySlots_Implementation(false);
+		SortInventoryByEmptySlots(false);
 	}
 }
 
@@ -357,41 +357,6 @@ void UJT_InventoryComponent::SortInventoryByEmptySlots_Implementation(bool Rever
 	OnInventoryChangedBind.Broadcast();
 }
 
-
-
-
-
-void UJT_InventoryComponent::ClampInventoryToMaxSize_Implementation(bool DropExcludedItems, bool SimulatePhysics)
-{
-	int LInventorySize = Inventory.Num();
-
-
-	for (int i = LInventorySize - 1; i > MaxInventorySlotsCount; --i)
-	{
-		if (DropExcludedItems)
-		{
-			DropItemFromInventory(i, Inventory[i]->GetItemsCount(), SimulatePhysics);
-		}
-		else
-		{
-			RemoveFromInventory(i, Inventory[i]->GetItemsCount());
-		}
-
-		Inventory[i]->Rename(nullptr, nullptr);
-		Inventory.RemoveAt(i);
-	}
-
-
-
-	for (int i = 0; i < MaxInventorySlotsCount - LInventorySize; ++i)
-	{
-		UJT_InventorySlotBase* LBaseSlot = NewObject<UJT_InventorySlotBase>(this);
-		Inventory.Add(LBaseSlot);
-	}
-
-
-	OnInventoryChangedBind.Broadcast();
-}
 
 
 void UJT_InventoryComponent::ClearAllEmptySlots_Implementation()
@@ -509,7 +474,7 @@ void UJT_InventoryComponent::FindAndDropItemsFromInventoryByName_Implementation(
 		}
 	}
 
-	ClearAllEmptySlots_Implementation();
+	ClearAllEmptySlots();
 	OnInventoryChangedBind.Broadcast();
 }
 
@@ -533,7 +498,7 @@ void UJT_InventoryComponent::FindAndDropItemsFromInventoryByClass_Implementation
 		}
 	}
 
-	ClearAllEmptySlots_Implementation();
+	ClearAllEmptySlots();
 	OnInventoryChangedBind.Broadcast();
 }
 
@@ -625,7 +590,7 @@ void UJT_InventoryComponent::SetQuickSlotByInventorySlot_Implementation(int Quic
 {
 	if (!Inventory.IsValidIndex(InventorySlotIndex)) return;
 
-	SetQuickSlotBySlotInfo_Implementation(QuickSlotIndex, Inventory[InventorySlotIndex], CacheSlots);
+	SetQuickSlotBySlotInfo(QuickSlotIndex, Inventory[InventorySlotIndex], CacheSlots);
 }
 
 void UJT_InventoryComponent::SetQuickSlotBySlotInfo_Implementation(int QuickSlotIndex, UJT_InventorySlotBase* SlotInfo, bool CacheSlots)
@@ -799,7 +764,7 @@ void UJT_InventoryComponent::MoveAllItemsFromQuickSlotsToInventory_Implementatio
 	{
 		if (!IsValid(QuickSlots[i])) continue;
 
-		MoveItemsFromQuickSlotToInventory_Implementation(i, QuickSlots[i]->GetItemsCount(), MustBeNewSlot, ClearIfEmpty);
+		MoveItemsFromQuickSlotToInventory(i, QuickSlots[i]->GetItemsCount(), MustBeNewSlot, ClearIfEmpty);
 	}
 }
 
@@ -857,6 +822,14 @@ bool UJT_InventoryComponent::GetIsQuickSlotEmpty(int QuickSlotIndex) const
 	if (!QuickSlots.IsValidIndex(QuickSlotIndex)) return true;
 
 	return QuickSlots[QuickSlotIndex]->IsEmpty();
+}
+
+void UJT_InventoryComponent::SetActiveQuickSlotIndex(int NewIndex)
+{
+	NewIndex = FMath::Clamp(NewIndex, 0, QuickSlots.Num() - 1);
+	ActiveQuickSlotIndex = NewIndex;
+
+	OnActiveQuickSlotIndexChangedBind.Broadcast(NewIndex);
 }
 
 //....................................................................................................................................//

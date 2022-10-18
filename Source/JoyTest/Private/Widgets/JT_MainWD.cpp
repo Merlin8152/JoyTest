@@ -4,6 +4,8 @@
 #include "Widgets/JT_MainWD.h"
 
 #include "Character/JT_CharacterBase.h"
+#include "Widgets/QuickSlots/JT_QuickSlotsPanelWD.h"
+
 #include "Components/TextBlock.h"
 #include "Components/ProgressBar.h"
 
@@ -31,6 +33,8 @@ void UJT_MainWD::InitializeMainWD_Implementation(AJT_CharacterBase* PlayerCharac
 
 	MyPlayerCharacter->OnHPChangeBind.AddDynamic(this, &UJT_MainWD::UpdateHP);
 	UpdateHP(MyPlayerCharacter->GetHP(), MyPlayerCharacter->GetHPMax());
+
+	if (QuickSlotsPanel) QuickSlotsPanel->InitializeQuickSlotsWD(MyPlayerCharacter);
 }
 
 void UJT_MainWD::UpdateHP(float NewHP, float MaxHP)

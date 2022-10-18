@@ -35,7 +35,8 @@ AJT_Projectile::AJT_Projectile()
 
 void AJT_Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	float TakedDamage = OtherActor->TakeDamage(Damage, FDamageEvent(), nullptr, this);
+	FPointDamageEvent PointDamageEvent = FPointDamageEvent(Damage, Hit, GetActorLocation(), nullptr);
+	float TakedDamage = OtherActor->TakeDamage(Damage, PointDamageEvent, nullptr, this);
 	// Only add impulse if we hit a physics
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
 	{
@@ -44,10 +45,10 @@ void AJT_Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 
 	//TODO Move this logic to DamageInfo actor component
 	/*Show damage*/
-	FActorSpawnParameters SpawnParameters = FActorSpawnParameters();
-	FTransform Transform = FTransform(GetActorRotation(), Hit.Location, FVector(1.0f, 1.0f, 1.0f));
-	AJT_DamageInfoActor* DamageActor = GetWorld()->SpawnActor<AJT_DamageInfoActor>(DamageInfoActorClass, Transform);
-	DamageActor->SetDamageText(FText::FromString(FString::SanitizeFloat(TakedDamage)));
+	//FActorSpawnParameters SpawnParameters = FActorSpawnParameters();
+	//FTransform Transform = FTransform(GetActorRotation(), Hit.Location, FVector(1.0f, 1.0f, 1.0f));
+	//AJT_DamageInfoActor* DamageActor = GetWorld()->SpawnActor<AJT_DamageInfoActor>(DamageInfoActorClass, Transform);
+	//DamageActor->SetDamageText(FText::FromString(FString::SanitizeFloat(TakedDamage)));
 
 	Destroy();
 }

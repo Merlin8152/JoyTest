@@ -69,9 +69,9 @@ void AJT_FireWeaponBase::Fire()
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
-			// spawn the projectile at the muzzle
+			// spawn the projectile
 			AJT_Projectile* Projectile = World->SpawnActor<AJT_Projectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-			Projectile->SetDamage(Damage);
+			if (Projectile)	Projectile->SetDamage(Damage);
 		}
 	}
 

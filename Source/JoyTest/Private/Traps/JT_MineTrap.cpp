@@ -21,6 +21,10 @@ void AJT_MineTrap::OnStartTrigger_Implementation(UPrimitiveComponent* Overlapped
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(this, ParticleSystem, GetActorLocation(), GetActorRotation());
 	}
+	if (TriggerSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, TriggerSound, GetActorLocation());
+	}
 
 	Super::OnStartTrigger_Implementation(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 }

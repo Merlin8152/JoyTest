@@ -14,8 +14,6 @@ AJT_DamageInfoActor::AJT_DamageInfoActor()
 	WidgetComponent->SetupAttachment(GetRootComponent());
 
 	WidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
-
-
 }
 
 // Called when the game starts or when spawned
@@ -26,6 +24,7 @@ void AJT_DamageInfoActor::BeginPlay()
 	FTimerDelegate TimerDel;
 	TimerDel.BindUFunction(this, FName("OnDestroyTimer"));
 	GetWorldTimerManager().SetTimer(DestroyTimer, TimerDel, TimeToDestroy, false);
+
 	WidgetComponent->SetWidgetClass(WidgetClass);
 	WidgetComponent->UpdateWidget();
 }
@@ -41,12 +40,5 @@ void AJT_DamageInfoActor::SetDamageText(const FText& Text)
 	{
 		DamageInfoWD->SetDamageText(Text);
 	}
-}
-
-// Called every frame
-void AJT_DamageInfoActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 

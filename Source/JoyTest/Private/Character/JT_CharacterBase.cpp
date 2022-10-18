@@ -49,7 +49,6 @@ AJT_CharacterBase::AJT_CharacterBase()
 	Mesh1P->CastShadow = false;
 	Mesh1P->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
-
 }
 
 
@@ -114,7 +113,7 @@ void AJT_CharacterBase::OnQuickSlotChange(int32 Index)
 {
 	if (InventoryComponent->GetIsQuickSlotEmpty(Index)) return;
 
-	if (EquipedSlotIndex == Index) UnequipWeapon();
+	if (InventoryComponent->GetActiveQuickSlotIndex() == Index) UnequipWeapon();
 }
 
 void AJT_CharacterBase::EquipWeapon(AJT_FireWeaponBase* Weapon)
@@ -134,17 +133,18 @@ void AJT_CharacterBase::EquipWeapon(AJT_FireWeaponBase* Weapon)
 	CreatedWeapon->SetActorEnableCollision(false);
 	CreatedWeapon->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 	EquipedWeapon = Cast<AJT_FireWeaponBase>(CreatedWeapon);
-	EquipedSlotIndex = TempQuickSlotIndex;
 
+	InventoryComponent->SetActiveQuickSlotIndex(TempQuickSlotIndex);
 	EquipedWeapon->OnWeaponReloadBind.AddDynamic(this, &AJT_CharacterBase::OnWeaponReload);
 }
 
 void AJT_CharacterBase::UnequipWeapon()
 {
+	if (!IsValid(EquipedWeapon)) return;
 	EquipedWeapon->OnWeaponReloadBind.RemoveDynamic(this, &AJT_CharacterBase::OnWeaponReload);
 	EquipedWeapon->Destroy();
 	EquipedWeapon = nullptr;
-	EquipedSlotIndex = -1;
+	InventoryComponent->SetActiveQuickSlotIndex(-1);
 }
 
 void AJT_CharacterBase::UseQuickSlot(int QuickSlotIndex)
@@ -155,9 +155,12 @@ void AJT_CharacterBase::UseQuickSlot(int QuickSlotIndex)
 	UJT_InventoryItemInfo* LItemInfo = InventoryComponent->QuickSlots[QuickSlotIndex]->GetFirstItem();
 	if (LItemInfo->ItemClass->IsChildOf(AJT_UsableItemBase::StaticClass()))
 	{
-		if (AJT_UsableItemBase* LConsumableItem = Cast<AJT_UsableItemBase>(InventoryComponent->QuickSlots[QuickSlotIndex]->GetFirstItem()->ItemClass->GetDefaultObject()))
+		if (AJT_UsableItemBase* LUsableItem = Cast<AJT_UsableItemBase>(InventoryComponent->QuickSlots[QuickSlotIndex]->GetFirstItem()->ItemClass->GetDefaultObject()))
 		{
-			LConsumableItem->UseBy(this);
+			//TODO mb move to InventoryComponent 
+			LUsableItem->UseBy(this);
+
+			if (LUsableItem->RemoveOnUse) InventoryComponent->RemoveItemCountFromQuickSlot(QuickSlotIndex, 1, true);
 		}
 	}
 	TempQuickSlotIndex = -1;
@@ -193,7 +196,6 @@ void AJT_CharacterBase::ChangeHP(float Delta)
 
 void AJT_CharacterBase::OnGameStart_Implementation()
 {
-
 	MyGameInstance->OnGameStartedBind.RemoveDynamic(this, &AJT_CharacterBase::OnGameStart);
 	MyPlayerController->OnGameStart();
 	FirstSpawnUpdate();

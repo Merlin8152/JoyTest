@@ -16,6 +16,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryChanged);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemDropped, AActor*, Item);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnQuickSlotChanged, int, QuickSlotIndex);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveQuickSlotIndexChanged, int, NewIndex);
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class JOYTEST_API UJT_InventoryComponent : public UActorComponent
@@ -31,10 +32,17 @@ public:
 
 	//UActorComponent
 	virtual void BeginPlay() override;
-	void CreateInventorySlots();
 	virtual void EndPlay(const EEndPlayReason::Type Reason) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	//~UActorComponent
+
+	void CreateInventorySlots();
+
+	//c++ private values
+private:
+
+	int ActiveQuickSlotIndex = -1;
+
 
 	//c++ protected methods
 protected:
@@ -43,16 +51,10 @@ protected:
 
 
 
-
-
 	//c++ public values
 public:
 
 	AActor* MyActor = nullptr;
-
-
-	//c++ private values
-private:
 
 
 
@@ -136,11 +138,6 @@ public:
 		void SortInventoryByEmptySlots(bool Reverse);
 	void SortInventoryByEmptySlots_Implementation(bool Reverse);
 
-
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InventorySystem|Inventory")
-		void ClampInventoryToMaxSize(bool DropExcludedItems, bool SimulatePhysics);
-	void ClampInventoryToMaxSize_Implementation(bool DropExcludedItems, bool SimulatePhysics);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InventorySystem|Inventory")
 		void ClearAllEmptySlots();
@@ -252,6 +249,15 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySystem|QuickSlots")
 		bool GetIsQuickSlotEmpty(int QuickSlotIndex) const;
 
+
+
+	UFUNCTION(BlueprintCallable, Category = "InventorySystem|QuickSlots")
+		void SetActiveQuickSlotIndex(int NewIndex); //only on server
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySystem|QuickSlots")
+		int GetActiveQuickSlotIndex() const { return ActiveQuickSlotIndex; }
+	UPROPERTY(BlueprintAssignable, Category = "InventorySystem|EventsForBind")
+		FOnActiveQuickSlotIndexChanged OnActiveQuickSlotIndexChangedBind;
+
 	//............................................................................................................//
 
 
@@ -290,7 +296,6 @@ public:
 
 
 	//.................................QuickSlots.................................................................//
-
 	/*
 		Initial QuickSlots count.
 	*/

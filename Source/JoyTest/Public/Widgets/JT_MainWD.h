@@ -7,6 +7,7 @@
 #include "JT_MainWD.generated.h"
 
 class AJT_CharacterBase;
+class UJT_QuickSlotsPanelWD;
 
 class UTextBlock;
 class UProgressBar;
@@ -66,7 +67,11 @@ public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget), Category = "MainWD|Widgets")
 		UTextBlock* InteractiveInfoText = nullptr;
 
-
+	/*
+		Container of quick slots.
+	*/
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget), Category = "MainHUD_WD|Widgets")
+		UJT_QuickSlotsPanelWD* QuickSlotsPanel = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 		AJT_CharacterBase* MyPlayerCharacter = nullptr;

@@ -41,8 +41,8 @@ protected:
 	/*
 	* DamageInfoActor class to spawn on hit
 	*/
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (ClampMin = "0.0", UIMin = "0.0"), Category = "Setup")
-		TSubclassOf<AJT_DamageInfoActor> DamageInfoActorClass = nullptr;
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (ClampMin = "0.0", UIMin = "0.0"), Category = "Setup")
+	//	TSubclassOf<AJT_DamageInfoActor> DamageInfoActorClass = nullptr;
 public:
 
 

@@ -194,28 +194,11 @@ void UJT_InventoryQuickSlotWD::MoveSlotToInventory()
 
 	const int SlotItemCount = InventoryComponent->QuickSlots[QuickSlotIndex]->GetItemsCount();
 
-	InventoryComponent->QuickSlots[QuickSlotIndex]->MoveLastItemsCountToInventory(SlotItemCount, false, InventoryComponent);
+	InventoryComponent->MoveItemsFromQuickSlotToInventory(QuickSlotIndex, SlotItemCount, false, true);
+	//InventoryComponent->QuickSlots[QuickSlotIndex]->MoveLastItemsCountToInventory(SlotItemCount, false, InventoryComponent);
 
 	ClearSlotInfo();
 }
 
 
 
-
-
-
-
-void UJT_InventoryQuickSlotWD::DropItemFromQuickSlot(int ItemsCount)
-{
-	if (!IsValid(InventoryWD) || !IsValid(GameHUD) || !IsValid(InventoryComponent)) return;
-
-
-	//for (int i = 0; i < ItemsCount; i++)
-	//{
-	//	InventoryWD->ItemToDrop.Add(ItemInfo);
-	//}
-
-	InventoryComponent->RemoveItemCountFromQuickSlot(QuickSlotIndex, ItemsCount, true);
-
-	//GameHUD->RemoveSliderConfirmationWD();
-}

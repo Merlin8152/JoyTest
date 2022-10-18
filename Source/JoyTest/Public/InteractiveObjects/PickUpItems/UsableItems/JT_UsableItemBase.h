@@ -16,7 +16,10 @@ class JOYTEST_API AJT_UsableItemBase : public AJT_PickUpItemBase
 
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-		void UseBy(AActor* InActor) ;
-	virtual void UseBy_Implementation(AActor* InActor) {};
+		void UseBy(AActor* InActor);
+	virtual void UseBy_Implementation(AActor* InActor);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+		bool RemoveOnUse = false;
 	
 };

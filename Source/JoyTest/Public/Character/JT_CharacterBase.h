@@ -58,22 +58,15 @@ protected:
 
 
 	/*Weapon*/
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "PlayerCharacter")
 		AJT_FireWeaponBase* EquipedWeapon = nullptr;
-	UPROPERTY(BlueprintReadOnly)
-		int32 EquipedSlotIndex = -1;
+	//UPROPERTY(BlueprintReadOnly, Category = "PlayerCharacter")
+		//int32 EquipedSlotIndex = -1;
 	/*~Weapon*/
 
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayerCharacter")
 		AActor* TargetActor;
-
-	UFUNCTION()
-		void OnWeaponReload();
-	UFUNCTION()
-		void RefillWeaponAmmo();
-	UFUNCTION()
-		void OnQuickSlotChange(int32 Index);
 
 
 	// Components //
@@ -93,28 +86,38 @@ protected:
 	// ~Components //
 
 
+
+	UFUNCTION()
+		void OnWeaponReload();
+	UFUNCTION()
+		void RefillWeaponAmmo();
+	UFUNCTION()
+		void OnQuickSlotChange(int32 Index);
+
+
 public:
 	// Sets default values for this character's properties
 	AJT_CharacterBase();
 
 
-
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void UnPossessed() override;
 
-	UFUNCTION(BlueprintCallable, Category = "PlayerCharacter")
-		void ChangeHP(float Delta);
-	UFUNCTION(BlueprintCallable, meta = (BlueprintProtected), Category = "PlayerCharacter")
-		void EquipWeapon(AJT_FireWeaponBase* Weapon);
-	UFUNCTION(BlueprintCallable, meta = (BlueprintProtected), Category = "PlayerCharacter")
-		void UnequipWeapon();
-	UFUNCTION(BlueprintCallable, meta = (BlueprintProtected), Category = "PlayerCharacter")
-		void UseQuickSlot(int QuickSlotIndex);
-	UFUNCTION(BlueprintCallable, Category = "PlayerCharacter")
-		void Death();
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	/** Handles moving forward/backward */
+	void MoveForward(float Val);
+	/** Handles stafing movement, left and right */
+	void MoveRight(float Val);
 
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser);
+
+
 
 	/*Call on load map*/
 	UFUNCTION(BlueprintNativeEvent, meta = (BlueprintProtected), Category = "PlayerCharacter")
@@ -126,39 +129,17 @@ public:
 	virtual void FirstSpawnUpdate_Implementation();
 
 
-	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-		float BaseTurnRate;
 
-	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-		float BaseLookUpRate;
-
-
-	/** AnimMontage to play each time we fire */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		UAnimMontage* FireAnimation;
-
-	/** AnimMontage to play each time we fire */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		UAnimMontage* ReloadAnimation;
-
-	/** HP Change Bind */
-	UPROPERTY(BlueprintAssignable, Category = Gameplay)
-	FOnHPChange OnHPChangeBind;
-
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	/** Handles moving forward/backward */
-	void MoveForward(float Val);
-
-	/** Handles stafing movement, left and right */
-	void MoveRight(float Val);
+	UFUNCTION(BlueprintCallable, Category = "PlayerCharacter")
+		void ChangeHP(float Delta);
+	UFUNCTION(BlueprintCallable, meta = (BlueprintProtected), Category = "PlayerCharacter")
+		void EquipWeapon(AJT_FireWeaponBase* Weapon);
+	UFUNCTION(BlueprintCallable, meta = (BlueprintProtected), Category = "PlayerCharacter")
+		void UnequipWeapon();
+	UFUNCTION(BlueprintCallable, meta = (BlueprintProtected), Category = "PlayerCharacter")
+		void UseQuickSlot(int QuickSlotIndex);
+	UFUNCTION(BlueprintCallable, Category = "PlayerCharacter")
+		void Death();
 
 
 	/*OnPressButtons Events*/
@@ -226,4 +207,25 @@ public:
 		float ScreenTargetRadius = 3.0f;
 
 
+
+	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+		float BaseTurnRate;
+
+	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+		float BaseLookUpRate;
+
+
+	/** AnimMontage to play each time we fire */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		UAnimMontage* FireAnimation;
+
+	/** AnimMontage to play each time we fire */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		UAnimMontage* ReloadAnimation;
+
+	/** HP Change Bind */
+	UPROPERTY(BlueprintAssignable, Category = Gameplay)
+		FOnHPChange OnHPChangeBind;
 };
