@@ -78,8 +78,6 @@ void AJT_CharacterBase::OnWeaponReload()
 {
 	if (!IsValid(EquipedWeapon)) return;
 
-	EquipedWeapon->Fire();
-
 	if (ReloadAnimation != nullptr)
 	{
 		// Get the animation object for the arms mesh
@@ -278,7 +276,7 @@ void AJT_CharacterBase::OnFire()
 {
 	if (!IsValid(EquipedWeapon)) return;
 
-	EquipedWeapon->Fire();
+	EquipedWeapon->Fire(this);
 
 	if (FireAnimation != nullptr)
 	{
@@ -331,12 +329,22 @@ void AJT_CharacterBase::MoveRight(float Val)
 
 void AJT_CharacterBase::SetTargetByScreenCenter()
 {
-	FVector2D ScreenPosition = MyPlayerController->GetViewportHalfSize();
+	FCollisionQueryParams LQueryParams;
+	LQueryParams.bTraceComplex = false;
+	LQueryParams.AddIgnoredActor(this);
+	LQueryParams.bDebugQuery = true;
+	if (IsValid(EquipedWeapon)) LQueryParams.AddIgnoredActor(EquipedWeapon);
 
-	FHitResult LHitRes;
-	bool LIsHit = MyPlayerController->GetHitResultAtScreenRadius(ScreenPosition, ScreenTargetRadius, ECollisionChannel::ECC_Visibility, true, LHitRes);
-	AActor* LTargetActor = LHitRes.Actor.Get();
+	FHitResult LHitResult;
+	GetWorld()->LineTraceSingleByChannel(
+		LHitResult,
+		FirstPersonCameraComponent->GetComponentLocation(),
+		FirstPersonCameraComponent->GetComponentLocation() + (FirstPersonCameraComponent->GetForwardVector() * ScreenTargetRadius),
+		ECollisionChannel::ECC_Visibility,
+		LQueryParams
+	);
 
+	AActor* LTargetActor = LHitResult.Actor.Get();
 	if (IsValid(LTargetActor))
 	{
 		AddTarget(LTargetActor);

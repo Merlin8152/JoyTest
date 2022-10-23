@@ -204,7 +204,7 @@ public:
 		ScreenTargetRadius
 	*/
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (ClampMin = "1.0", UIMin = "1.0"), Category = "PlayerCharacter|TargetItem")
-		float ScreenTargetRadius = 3.0f;
+		float ScreenTargetRadius = 250.0f;
 
 
 

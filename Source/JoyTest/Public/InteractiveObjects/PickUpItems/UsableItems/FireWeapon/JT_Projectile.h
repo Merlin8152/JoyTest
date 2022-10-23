@@ -32,6 +32,8 @@ protected:
 
 	float Damage = 10.0f;
 
+	AActor* OwningActor = nullptr;
+
 	/*
 	* Impulse to phys targets = (Velocity * ImpulseCoef)
 	*/
@@ -51,7 +53,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 		float GetDamage() { return Damage; };
 
-
+	UFUNCTION(BlueprintCallable)
+		void SetOwningActor(AActor* InOwningActor) { OwningActor = InOwningActor; };
+	UFUNCTION(BlueprintCallable)
+		AActor* GetOwningActor() { return OwningActor; };
 	/** called when projectile hits something */
 	UFUNCTION(BlueprintCallable)
 		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);

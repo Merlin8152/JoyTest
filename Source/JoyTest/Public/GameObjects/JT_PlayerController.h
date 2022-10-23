@@ -47,12 +47,6 @@ protected:
 	//Blueprint values
 public:
 
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayerController")
-		FVector2D GetViewportHalfSize() const;
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayerController")
-		bool GetHitResultAtScreenRadius(const FVector2D& ScreenPosition, float Radius, ECollisionChannel TraceChannel, bool bTraceComplex, FHitResult& HitResult) const;
-
 	UFUNCTION(BlueprintNativeEvent, Category = "PlayerController")
 		void OnGameStart();
 	virtual void OnGameStart_Implementation();

@@ -43,8 +43,9 @@ void AJT_FireWeaponBase::OnWeaponNeedReload()
 
 
 
-void AJT_FireWeaponBase::Fire()
+void AJT_FireWeaponBase::Fire(AActor* FireByActor)
 {
+	if (!IsValid(FireByActor)) return;
 	if (IsReloading) return;
 
 	if (AmmoCount == 0)
@@ -71,7 +72,11 @@ void AJT_FireWeaponBase::Fire()
 
 			// spawn the projectile
 			AJT_Projectile* Projectile = World->SpawnActor<AJT_Projectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-			if (Projectile)	Projectile->SetDamage(Damage);
+			if (Projectile)
+			{
+				Projectile->SetOwningActor(FireByActor);
+				Projectile->SetDamage(Damage);
+			}
 		}
 	}
 

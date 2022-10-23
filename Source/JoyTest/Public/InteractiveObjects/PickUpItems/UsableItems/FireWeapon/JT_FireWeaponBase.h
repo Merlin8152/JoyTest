@@ -64,7 +64,7 @@ public:
 
 	/**WeaponFunctions*/
 	UFUNCTION(BlueprintCallable)
-		void Fire();
+		void Fire(AActor* FireByActor);
 	UFUNCTION(BlueprintCallable)
 		void RefillAmmo();
 	UFUNCTION(BlueprintCallable)
