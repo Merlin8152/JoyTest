@@ -20,8 +20,8 @@
 AJT_GameHUD::AJT_GameHUD()
 {
 	// Set the crosshair texture
-	static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshairTexObj(TEXT("/Game/FirstPerson/Textures/FirstPersonCrosshair"));
-	CrosshairTex = CrosshairTexObj.Object;
+	//static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshairTexObj(TEXT("/Game/FirstPerson/Textures/FirstPersonCrosshair"));
+	//CrosshairTex = CrosshairTexObj.Object;
 }
 
 void AJT_GameHUD::BeginPlay()
@@ -69,6 +69,8 @@ void AJT_GameHUD::SetFocusToWidget(EWidgetFocusType WidgetFocusType, UUserWidget
 void AJT_GameHUD::DrawHUD()
 {
 	Super::DrawHUD();
+
+	if (!IsDrawCrosshair || !CrosshairTex) return;
 
 	// Draw very simple crosshair
 

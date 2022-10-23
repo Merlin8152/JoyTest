@@ -41,7 +41,7 @@ protected:
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
 	virtual bool HandleDragDrop_Implementation(UDragDropOperation* Operation, bool bUpdateSlot) override;
-
+	virtual bool ApplyDragDropData_Implementation(const FInventoryDragDropData& InData) override;
 	/*
 		Creates drag drop data with assigned slot index
 	*/

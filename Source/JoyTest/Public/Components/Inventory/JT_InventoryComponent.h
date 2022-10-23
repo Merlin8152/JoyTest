@@ -67,6 +67,7 @@ public:
 public:
 
 	//..........................................Inventory.........................................................//
+
 	UFUNCTION(BlueprintCallable, Category = "InventorySystem")
 		bool GetCanCollectItem(UJT_InventoryItemInfo* ItemInfo) const;
 	UFUNCTION(BlueprintCallable, Category = "InventorySystem")
@@ -187,7 +188,7 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category = "InventorySystem|QuickSlots")
-		void RegisterQuickSlots(int Num); //only on server
+		void RegisterQuickSlots(int Num);
 
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InventorySystem|QuickSlots")
@@ -205,11 +206,11 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InventorySystem|QuickSlots")
-		void SetQuickSlotByInventorySlot(int QuickSlotIndex, int InventorySlotIndex, bool CacheSlots);
-	virtual void SetQuickSlotByInventorySlot_Implementation(int QuickSlotIndex, int InventorySlotIndex, bool CacheSlots);
+		void SetQuickSlotByInventorySlot(int QuickSlotIndex, int InventorySlotIndex);
+	virtual void SetQuickSlotByInventorySlot_Implementation(int QuickSlotIndex, int InventorySlotIndex);
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InventorySystem|QuickSlots")
-		void SetQuickSlotBySlotInfo(int QuickSlotIndex, UJT_InventorySlotBase* SlotInfo, bool CacheSlots);
-	virtual void SetQuickSlotBySlotInfo_Implementation(int QuickSlotIndex, UJT_InventorySlotBase* SlotInfo, bool CacheSlots);
+		void SetQuickSlotBySlotInfo(int QuickSlotIndex, UJT_InventorySlotBase* SlotInfo);
+	virtual void SetQuickSlotBySlotInfo_Implementation(int QuickSlotIndex, UJT_InventorySlotBase* SlotInfo);
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InventorySystem|QuickSlots")
 		void SetQuickSlotByItemInfo(int QuickSlotIndex, UJT_InventoryItemInfo* ItemInfo);
 	virtual void SetQuickSlotByItemInfo_Implementation(int QuickSlotIndex, UJT_InventoryItemInfo* ItemInfo);
@@ -252,7 +253,7 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category = "InventorySystem|QuickSlots")
-		void SetActiveQuickSlotIndex(int NewIndex); //only on server
+		void SetActiveQuickSlotIndex(int NewIndex);
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySystem|QuickSlots")
 		int GetActiveQuickSlotIndex() const { return ActiveQuickSlotIndex; }
 	UPROPERTY(BlueprintAssignable, Category = "InventorySystem|EventsForBind")

@@ -586,14 +586,14 @@ void UJT_InventoryComponent::DropItemFromQuickSlot_Implementation(int QuickSlotI
 	OnQuickSlotChangedBind.Broadcast(QuickSlotIndex);
 }
 
-void UJT_InventoryComponent::SetQuickSlotByInventorySlot_Implementation(int QuickSlotIndex, int InventorySlotIndex, bool CacheSlots)
+void UJT_InventoryComponent::SetQuickSlotByInventorySlot_Implementation(int QuickSlotIndex, int InventorySlotIndex)
 {
 	if (!Inventory.IsValidIndex(InventorySlotIndex)) return;
 
-	SetQuickSlotBySlotInfo(QuickSlotIndex, Inventory[InventorySlotIndex], CacheSlots);
+	SetQuickSlotBySlotInfo(QuickSlotIndex, Inventory[InventorySlotIndex]);
 }
 
-void UJT_InventoryComponent::SetQuickSlotBySlotInfo_Implementation(int QuickSlotIndex, UJT_InventorySlotBase* SlotInfo, bool CacheSlots)
+void UJT_InventoryComponent::SetQuickSlotBySlotInfo_Implementation(int QuickSlotIndex, UJT_InventorySlotBase* SlotInfo)
 {
 	if (!QuickSlots.IsValidIndex(QuickSlotIndex) || !IsValid(SlotInfo)) return;
 

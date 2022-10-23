@@ -49,6 +49,7 @@ void AJT_PlayerController::OnGameStart_Implementation()
 	if (IsValid(MyGameHUD))
 	{
 		MyGameHUD->CreateMainHUD();
+		MyGameHUD->SetIsDrawCrosshair(true);
 	}
 
 	APawn* LPawn = GetPawn();

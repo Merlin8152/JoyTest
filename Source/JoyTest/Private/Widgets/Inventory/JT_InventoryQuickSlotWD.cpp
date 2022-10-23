@@ -25,10 +25,7 @@ void UJT_InventoryQuickSlotWD::NativeConstruct()
 
 bool UJT_InventoryQuickSlotWD::ApplyDragDropData_Implementation(const FInventoryDragDropData& InData)
 {
-	auto a = InData.ItemInfo->ItemClass->ClassConstructor;
 	if (InData.SlotWidget == this || !IsValid(InventoryWD)) return false;
-
-
 
 	UJT_InventoryBaseSlotWD* FromSlotWidget = Cast<UJT_InventoryBaseSlotWD>(InData.SlotWidget);
 	FromSlotWidget->ClearSlotInfo();

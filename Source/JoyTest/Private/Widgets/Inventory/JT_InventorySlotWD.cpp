@@ -106,9 +106,36 @@ bool UJT_InventorySlotWD::HandleDragDrop_Implementation(UDragDropOperation* Oper
 	FInventoryDragDropData Data;
 	CreateDragDropData(Data);
 
-	UJT_InventoryBaseSlotWD* SlotWidget = Cast<UJT_InventoryBaseSlotWD>(LData.SlotWidget);
+	return ApplyDragDropData(Data);
+}
 
-	return SlotWidget->ApplyDragDropData(Data);
+bool UJT_InventorySlotWD::ApplyDragDropData_Implementation(const FInventoryDragDropData& InData)
+{
+	if (InData.SlotWidget == this || !IsValid(InventoryWD)) return false;
+
+	UJT_InventoryBaseSlotWD* FromSlotWidget = Cast<UJT_InventoryBaseSlotWD>(InData.SlotWidget);
+	FromSlotWidget->ClearSlotInfo();
+
+	if (InData.IsFromQuickSlot())
+	{
+		UJT_InventoryItemInfo* FromItemInfo = InventoryComponent->QuickSlots[InData.QuickSlotIndex]->GetFirstItem();
+		int count = InventoryComponent->QuickSlots[InData.QuickSlotIndex]->GetItemsCount();
+
+		if (!IsSlotFree())
+		{
+			InventoryComponent->SetQuickSlotByItemInfo(InData.QuickSlotIndex, ItemInfo);
+			FromSlotWidget->SetNewItemInfo(ItemInfo, true);
+		}
+
+		SetNewItemInfo(FromSlotWidget->ItemInfo, true);
+
+		InventoryComponent->MoveItemsFromQuickSlotToInventory(InData.QuickSlotIndex, count, true, true);
+
+		FromSlotWidget->UpdateSlotInfo();
+	}
+
+
+	return true;
 }
 
 void UJT_InventorySlotWD::CreateDragDropData(FInventoryDragDropData& OutData)

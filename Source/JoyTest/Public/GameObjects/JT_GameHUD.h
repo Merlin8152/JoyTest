@@ -14,6 +14,8 @@ class UJT_DeathMenu;
 class AJT_PlayerController;
 class UJT_GameInstance;
 
+class UTexture2D;
+
 UENUM()
 enum class EWidgetFocusType : uint8
 {
@@ -35,20 +37,34 @@ class JOYTEST_API AJT_GameHUD : public AHUD
 		AJT_GameHUD();
 
 private:
-	/** Crosshair asset pointer */
-	class UTexture2D* CrosshairTex;
+
+	bool IsDrawCrosshair = false;
+
 
 	//c++ protected methods
 protected:
 
 	virtual void BeginPlay() override;
+
+
 public:
+
+
 	void SetFocusToWidget(EWidgetFocusType WidgetFocusType, UUserWidget* Widget);
 	virtual void DrawHUD() override;
+
+
 	//Blueprint methods
 public:
 
+	/*Crosshair*/
+	UFUNCTION(BlueprintCallable, Category = "Crosshair")
+		void SetIsDrawCrosshair(bool InIsDrawCrosshair) { IsDrawCrosshair = InIsDrawCrosshair; };
+	UFUNCTION(BlueprintCallable, Category = "Crosshair")
+		bool GetIsDrawCrosshair() { return IsDrawCrosshair; };
+	/*~Crosshair*/
 
+	/*Widgets*/
 	UFUNCTION(BlueprintCallable, Category = "MainWD")
 		void CreateMainHUD();
 	UFUNCTION(BlueprintCallable, Category = "MainWD")
@@ -83,14 +99,23 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "GameplayActions")
 		bool RemoveAllWidgets();
+	/*~Widgets*/
+
+
 	UFUNCTION(BlueprintCallable, Category = "GameplayActions")
 		bool QuitGame();
 	UFUNCTION(BlueprintCallable, Category = "GameplayActions")
 		void OnRespawn();
 	UFUNCTION(BlueprintCallable, Category = "GameplayActions")
 		bool OpenGame(const FString& MapName);
+
+
 	//Blueprint values
 public:
+
+	/*
+		Widgets	
+	*/
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widgets")
 		TSoftClassPtr<UJT_MainWD> MainWDClass;
 	UPROPERTY(BlueprintReadOnly, Category = "Widgets")
@@ -115,8 +140,15 @@ public:
 		UJT_DeathMenu* DeathMenuWD = nullptr;
 
 
+
 	UPROPERTY(BlueprintReadOnly)
 		AJT_PlayerController* MyController = nullptr;
 	UPROPERTY(BlueprintReadOnly)
 		UJT_GameInstance* GameInstance = nullptr;
+
+
+
+	/** Crosshair asset pointer */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Crosshair")
+		UTexture2D* CrosshairTex;
 };

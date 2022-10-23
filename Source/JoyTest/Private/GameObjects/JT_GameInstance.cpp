@@ -25,6 +25,7 @@ void UJT_GameInstance::OnMainMenuOpened()
 	if (AJT_PlayerController* LPlayerController = Cast<AJT_PlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
 	{
 		LPlayerController->MyGameHUD->CreateMainMenuWD();
+		LPlayerController->MyGameHUD->SetIsDrawCrosshair(false);
 	}
 }
 
